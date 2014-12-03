@@ -24,6 +24,12 @@
         <ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">
           {{location.name}}
         </ion-item>
+        <ion-item nav-clear menu-close ng-href="#/settings">
+          Settings
+        </ion-item>
+        <ion-item nav-clear menu-close ng-href="#/about">
+          About
+        </ion-item>
 
       </ion-list>
 

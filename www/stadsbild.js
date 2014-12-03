@@ -28,7 +28,6 @@ angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTrunc
         templateUrl: "map/menu.tpl.html",
         controller: 'MapController'
       })
-
       .state('map.index', {
         url: "/index",
         views: {
@@ -36,6 +35,16 @@ angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTrunc
              templateUrl: "map/index.tpl.html"
            }}
       })
+      .state('settings', {
+        url: "/settings",
+        templateUrl: "settings/settings.tpl.html",
+        controller: 'SettingsController'
+      })
+      .state('about', {
+        url: "/about",
+        templateUrl: "about/about.tpl.html"
+      });
+
 
     $urlRouterProvider.otherwise('/map/index');
 
