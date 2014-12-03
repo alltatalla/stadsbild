@@ -1,4 +1,4 @@
-angular.module('starter').factory('LocationsService', [ function() {
+angular.module('stadsbild').factory('LocationsService', [ function() {
 
   var locationsObj = {};
 

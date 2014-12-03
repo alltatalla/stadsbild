@@ -1,4 +1,4 @@
-angular.module('starter').controller('MapController',
+angular.module('stadsbild').controller('MapController',
   [ '$scope',
     '$cordovaGeolocation',
     '$stateParams',
