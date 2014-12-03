@@ -22,22 +22,21 @@ angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTrunc
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
-      .state('app', {
-        url: "/app",
+      .state('map', {
+        url: "/map",
         abstract: true,
-        templateUrl: "templates/menu.html",
+        templateUrl: "map/menu.tpl.html",
         controller: 'MapController'
       })
 
-      .state('app.map', {
-        url: "/map",
+      .state('map.index', {
+        url: "/index",
         views: {
-          'menuContent' :{
-            templateUrl: "templates/map.html"
-          }
-        }
+          'menuContent' : {
+             templateUrl: "map/index.tpl.html"
+           }}
       })
 
-    $urlRouterProvider.otherwise('/app/map');
+    $urlRouterProvider.otherwise('/map/index');
 
   });

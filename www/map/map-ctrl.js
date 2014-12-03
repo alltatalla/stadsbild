@@ -62,7 +62,7 @@ angular.module('stadsbild').controller('MapController',
         this.name = "";
       };
 
-      $ionicModal.fromTemplateUrl('templates/addLocation.html', {
+      $ionicModal.fromTemplateUrl('map/add-location.tpl.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
