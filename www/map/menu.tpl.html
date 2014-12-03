@@ -13,23 +13,63 @@
 
   <ion-side-menu side="left">
 
-    <header class="bar bar-header bar-stable">
-      <h1 class="title">Locations</h1>
-    </header>
 
-    <ion-content class="has-header">
+    <ion-content>
 
       <ion-list>
 
-        <ion-item nav-clear menu-close ng-click="goTo(locationKey)" ng-repeat="(locationKey,location) in locations track by location.name">
+        <div class="item item-divider item-icon-right">
+          Platser
+          <i class="icon small-icon ion-plus"></i>
+        </div>
+
+        <a class="item item-button-right menu-close"
+           ng-href="#/location/{{location.id}}"
+           ng-repeat="(locationKey,location) in locations track by location.name">
           {{location.name}}
-        </ion-item>
-        <ion-item nav-clear menu-close ng-href="#/settings">
+          <button class="button button-clear button-dark" ng-click="goTo(locationKey)">
+            <i class="icon ion-location"></i>
+          </button>
+        </a>
+
+        <div class="item item-divider item-icon-right">
+          Filter
+          <i class="icon small-icon ion-minus"></i>
+        </div>
+
+        <div class="item item-icon-left item-icon-right">
+          <i class="icon small-icon ion-speakerphone"></i>
+          Nyheter
+          <i class="icon small-icon ion-checkmark"></i>
+        </div>
+
+        <div class="item item-icon-left item-icon-right">
+          <i class="icon small-icon ion-home"></i>
+          Stadskamp
+          <i class="icon small-icon ion-checkmark"></i>
+        </div>
+
+        <div class="item item-icon-left item-icon-right">
+          <i class="icon small-icon ion-wrench"></i>
+          Arbetarkamp
+          <i class="icon small-icon ion-checkmark"></i>
+        </div>
+
+        <div class="item item-divider">
+          Annat
+        </div>
+
+        <a class="item item-icon-left"
+           href="#/settings">
+          <i class="icon small-icon ion-gear-b"></i>
           Settings
-        </ion-item>
-        <ion-item nav-clear menu-close ng-href="#/about">
+        </a>
+
+        <a class="item item-icon-left"
+           href="#/about">
+          <i class="icon small-icon ion-ios7-information-outline"></i>
           About
-        </ion-item>
+        </a>
 
       </ion-list>
 
