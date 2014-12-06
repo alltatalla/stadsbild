@@ -35,6 +35,11 @@ angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTrunc
              templateUrl: "map/index.tpl.html"
            }}
       })
+      .state('location', {
+        url: '/location/:locationId',
+        templateUrl: "location/location.tpl.html",
+        controller: 'LocationController'
+      })
       .state('settings', {
         url: "/settings",
         templateUrl: "settings/settings.tpl.html",

@@ -24,6 +24,17 @@ angular.module('stadsbild').factory('LocationsService', [ function() {
 
   ];
 
+  locationsObj.getLocation = function(id) {
+    locList = locationsObj.savedLocations;
+
+    for (i = 0; i < locList.length; ++i) {
+      if (locList[i].id === id)
+        return locList[i];
+    }
+
+    return undefined;
+  };
+
   return locationsObj;
 
 }]);
