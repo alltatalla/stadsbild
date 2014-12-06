@@ -23,14 +23,13 @@
           <i class="icon small-icon ion-plus"></i>
         </div>
 
-        <a class="item item-button-right menu-close"
-           ng-href="#/location/{{location.id}}"
+        <div class="item item-button-right"
            ng-repeat="(locationKey,location) in locations track by location.name">
-          {{location.name}}
+          <a ng-href="#/location/{{location.id}}" class="menu-close"> {{location.name}}</a>
           <button class="button button-clear button-dark" ng-click="goTo(locationKey)">
             <i class="icon ion-location"></i>
           </button>
-        </a>
+        </div>
 
         <div class="item item-divider item-icon-right">
           Filter
