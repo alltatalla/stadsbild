@@ -43,6 +43,7 @@ angular.module('stadsbild').controller('MapController',
             zoomControlPosition: 'bottomleft'
           },
           markers : {},
+          paths : {},
           events: {
             map: {
               enable: ['context'],
@@ -107,6 +108,16 @@ angular.module('stadsbild').controller('MapController',
           draggable: false
         };
 
+        $scope.map.paths[locationKey] = {
+          weight: 2,
+          color: '#ff612f',
+          latlngs: {
+            lat: location.lat,
+            lng: location.lng
+          },
+          radius: location.radius,
+          type: 'circle'
+        };
       };
 
       /**
