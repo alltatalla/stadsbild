@@ -26,7 +26,7 @@
         <div class="item item-button-right"
            ng-repeat="(locationKey,location) in locations track by location.name">
           <a ng-href="#/location/{{location.id}}" class="menu-close"> {{location.name}}</a>
-          <button class="button button-clear button-dark" ng-click="goTo(locationKey)">
+          <button class="button button-clear button-dark menu-close" ng-click="goTo(locationKey)">
             <i class="icon ion-location"></i>
           </button>
         </div>
