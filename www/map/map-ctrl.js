@@ -24,18 +24,7 @@ angular.module('stadsbild').controller('MapController',
         $scope.locations = LocationsService.savedLocations;
         $scope.newLocation;
 
-        if(!InstructionsService.instructions.newLocations.seen) {
-
-          var instructionsPopup = $ionicPopup.alert({
-            title: 'Add Locations',
-            template: InstructionsService.instructions.newLocations.text
-          });
-          instructionsPopup.then(function(res) {
-            InstructionsService.instructions.newLocations.seen = true;
-            });
-
-        }
-
+        InstructionsService.showInstructionOnce(InstructionsService.instructions.newLocations);
         $scope.map = {
           defaults: {
             tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
