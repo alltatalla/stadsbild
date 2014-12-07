@@ -46,13 +46,6 @@ angular.module('stadsbild').controller('MapController',
 
       });
 
-      var Location = function() {
-        if ( !(this instanceof Location) ) return new Location();
-        this.lat  = "";
-        this.lng  = "";
-        this.name = "";
-      };
-
       $ionicModal.fromTemplateUrl('map/add-location.tpl.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -64,9 +57,12 @@ angular.module('stadsbild').controller('MapController',
        * Detect user long-pressing on map to add new location
        */
       $scope.$on('leafletDirectiveMap.contextmenu', function(event, locationEvent){
-        $scope.newLocation = new Location();
-        $scope.newLocation.lat = locationEvent.leafletEvent.latlng.lat;
-        $scope.newLocation.lng = locationEvent.leafletEvent.latlng.lng;
+        $scope.newLocation = {
+          name : "",
+          lat : locationEvent.leafletEvent.latlng.lat,
+          lng : locationEvent.leafletEvent.latlng.lng,
+          radius: 100
+        };
         $scope.modal.show();
       });
 
