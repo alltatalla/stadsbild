@@ -83,18 +83,18 @@ angular.module('stadsbild').controller('MapController',
         $scope.map.center  = {
           lat : location.lat,
           lng : location.lng,
-          zoom : 12
+          zoom : 15
         };
 
-        $scope.map.markers[locationKey] = {
+        $scope.map.markers = [{
           lat:location.lat,
           lng:location.lng,
           message: location.name,
           focus: true,
           draggable: false
-        };
+        }];
 
-        $scope.map.paths[locationKey] = {
+        $scope.map.paths = [{
           weight: 2,
           color: '#ff612f',
           latlngs: {
@@ -103,7 +103,7 @@ angular.module('stadsbild').controller('MapController',
           },
           radius: location.radius,
           type: 'circle'
-        };
+        }];
       };
 
       /**
