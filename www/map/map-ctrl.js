@@ -29,7 +29,8 @@ angular.module('stadsbild').controller('MapController',
           defaults: {
             tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
             maxZoom: 18,
-            zoomControlPosition: 'bottomleft'
+            zoomControlPosition: 'bottomleft',
+            attributionControl: false,
           },
           markers : {},
           paths : {},
