@@ -4,7 +4,7 @@ angular.module('stadsbild').controller('MapController',
     '$stateParams',
     '$ionicModal',
     '$ionicPopup',
-    'LocationsService',
+    'StruggleInformationService',
     'InstructionsService',
     function(
       $scope,
@@ -12,7 +12,7 @@ angular.module('stadsbild').controller('MapController',
       $stateParams,
       $ionicModal,
       $ionicPopup,
-      LocationsService,
+      StruggleInformationService,
       InstructionsService
       ) {
 
@@ -21,7 +21,7 @@ angular.module('stadsbild').controller('MapController',
        */
       $scope.$on("$stateChangeSuccess", function() {
 
-        $scope.locations = LocationsService.savedLocations;
+        $scope.struggles = StruggleInformationService.savedStruggles;
         $scope.newLocation;
 
         InstructionsService.showInstructionOnce(InstructionsService.instructions.newLocations);
@@ -67,9 +67,9 @@ angular.module('stadsbild').controller('MapController',
       });
 
       $scope.saveLocation = function() {
-        LocationsService.savedLocations.push($scope.newLocation);
+        StruggleInformationService.savedStruggles.push($scope.newLocation);
         $scope.modal.hide();
-        $scope.goTo(LocationsService.savedLocations.length - 1);
+        $scope.goTo(StruggleInformationService.savedStruggles.length - 1);
       };
 
       /**
@@ -78,7 +78,7 @@ angular.module('stadsbild').controller('MapController',
        */
       $scope.goTo = function(locationKey) {
 
-        var location = LocationsService.savedLocations[locationKey];
+        var location = StruggleInformationService.savedStruggles[locationKey];
 
         $scope.map.center  = {
           lat : location.lat,

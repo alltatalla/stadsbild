@@ -1,8 +1,8 @@
-angular.module('stadsbild').factory('LocationsService', [ function() {
+angular.module('stadsbild').factory('StruggleInformationService', [ function() {
 
-  var locationsObj = {};
+  var strugglesObj = {};
 
-  locationsObj.savedLocations = [
+  strugglesObj.savedStruggles = [
     {
       id : 1,
       name : "Kungsan",
@@ -27,8 +27,8 @@ angular.module('stadsbild').factory('LocationsService', [ function() {
 
   ];
 
-  locationsObj.getLocation = function(id) {
-    locList = locationsObj.savedLocations;
+  strugglesObj.getLocation = function(id) {
+    locList = strugglesObj.savedStruggles;
 
     for (i = 0; i < locList.length; ++i) {
       if (locList[i].id === id)
@@ -38,6 +38,6 @@ angular.module('stadsbild').factory('LocationsService', [ function() {
     return undefined;
   };
 
-  return locationsObj;
+  return strugglesObj;
 
 }]);
