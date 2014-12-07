@@ -1,7 +1,7 @@
 {
   "name": "stadsbild",
   "version": "1.0.0",
-  "description": "stadsbild: An Ionic project",
+  "description": "stadsbild: mapping the struggle between people, state and capital",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^0.7.1",
