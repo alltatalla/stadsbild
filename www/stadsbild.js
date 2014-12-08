@@ -1,20 +1,6 @@
 angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTruncate'])
-
-  .run(function($ionicPlatform) {
-    $ionicPlatform.ready(function() {
-      if(window.cordova && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        window.cordova.plugins.Keyboard.disableScroll(true);
-      }
-      if(window.StatusBar) {
-        StatusBar.styleDefault();
-      }
-    });
-  })
-
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
-
       .state('map', {
         url: "/map",
         abstract: true,
@@ -43,7 +29,5 @@ angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTrunc
         templateUrl: "about/about.tpl.html"
       });
 
-
     $urlRouterProvider.otherwise('/map/index');
-
   });
