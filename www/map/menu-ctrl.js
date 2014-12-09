@@ -2,12 +2,14 @@ angular.module('stadsbild').controller('MenuController',
   [ '$scope',
     '$state',
     '$stateParams',
+    '$ionicSideMenuDelegate',
     'StruggleInformationService',
     'InstructionsService',
     function(
       $scope,
       $state,
       $stateParams,
+      $ionicSideMenuDelegate,
       StruggleInformationService,
       InstructionsService) {
 
@@ -31,6 +33,7 @@ angular.module('stadsbild').controller('MenuController',
       };
 
       $scope.selectStruggle = function(id) {
+        $ionicSideMenuDelegate.toggleLeft(false);
         $state.go('map.index', {selectedStruggle: id});  
       };
 
