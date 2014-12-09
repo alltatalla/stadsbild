@@ -8,7 +8,7 @@
         </div>
 
         <a class="item item-button-right" ng-show="menu.struggles.expanded"
-           ng-repeat="(struggleKey,struggle) in struggles track by struggle.name" ng-href="#/struggle/{{struggle.id}}" on-hold="goTo(struggleKey)">
+           ng-repeat="(struggleKey,struggle) in struggles track by struggle.name" ng-href="#/struggle/{{struggle.id}}" on-hold="selectStruggle({{struggle.id}})">
           {{struggle.name}}
         </a>
 

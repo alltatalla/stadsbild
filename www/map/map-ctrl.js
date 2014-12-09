@@ -16,22 +16,6 @@ angular.module('stadsbild').controller('MapController',
       InstructionsService
       ) {
 
-      $scope.menu = {
-        struggles : {
-          expanded : true,
-        },
-
-        categories : {
-          expanded : true,
-          newsSelected : true,
-          cityStruggleSelected : true,
-          workersStruggleSelected : true,
-        },
-
-        other : {
-          expanded : false,
-        }
-      };
 
       /**
        * Once state loaded, get put map on scope.
@@ -49,6 +33,7 @@ angular.module('stadsbild').controller('MapController',
             zoomControlPosition: 'bottomleft',
             attributionControl: false,
           },
+          center: {},
           markers : {},
           paths : {},
           events: {
@@ -59,7 +44,12 @@ angular.module('stadsbild').controller('MapController',
           }
         };
 
-        $scope.goTo(0);
+        if ($stateParams.selectedStruggle != null) {
+          goTo(parseInt($stateParams.selectedStruggle));
+        }
+        else {
+          $scope.locate();
+        }
 
       });
 
@@ -86,16 +76,16 @@ angular.module('stadsbild').controller('MapController',
       $scope.saveLocation = function() {
         StruggleInformationService.savedStruggles.push($scope.newLocation);
         $scope.modal.hide();
-        $scope.goTo(StruggleInformationService.savedStruggles.length - 1);
+        goTo(StruggleInformationService.savedStruggles.length - 1);
       };
 
       /**
        * Center map on specific saved location
        * @param locationKey
        */
-      $scope.goTo = function(locationKey) {
+      var goTo = function(id) {
 
-        var location = StruggleInformationService.savedStruggles[locationKey];
+        var location = StruggleInformationService.getLocation(id);
 
         $scope.map.center  = {
           lat : location.lat,
@@ -150,5 +140,4 @@ angular.module('stadsbild').controller('MapController',
           });
 
       };
-
     }]);

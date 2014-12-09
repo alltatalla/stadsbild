@@ -4,22 +4,23 @@ angular.module('stadsbild', ['ionic', 'leaflet-directive', 'ngCordova', 'igTrunc
       .state('map', {
         url: "/map",
         abstract: true,
-        templateUrl: "map/index.tpl.html",
-        controller: 'MapController'
+        templateUrl: "map/index.tpl.html"
       })
       .state('map.index', {
-        url: "/index",
+        url: "/index?selectedStruggle",
         views: {
           'mapView' : {
-             templateUrl: "map/map.tpl.html"
-           },
+            templateUrl: "map/map.tpl.html",
+            controller: 'MapController'
+          },
           'menuView' : {
-             templateUrl: "map/menu.tpl.html"
-           }
-         }
+             templateUrl: "map/menu.tpl.html",
+             controller: 'MenuController'
+          }
+        }
       })
       .state('struggle', {
-        url: '/struggle/:struggleId',
+        url: '/struggle/{struggleId}',
         templateUrl: "struggle/struggle.tpl.html",
         controller: 'StruggleController'
       })
