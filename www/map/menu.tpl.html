@@ -37,22 +37,22 @@
         </div>
 
         <div ng-show="menu.categories.expanded">
-        <div class="item item-icon-left item-icon-right">
+        <div class="item item-icon-left item-icon-right" ng-click="menu.categories.newsSelected = !menu.categories.newsSelected">
           <i class="icon small-icon ion-speakerphone"></i>
           Nyheter
-          <i class="icon small-icon ion-checkmark"></i>
+          <i class="icon small-icon" ng-class="{'ion-checkmark': menu.categories.newsSelected}"></i>
         </div>
 
-        <div class="item item-icon-left item-icon-right">
+        <div class="item item-icon-left item-icon-right" ng-click="menu.categories.cityStruggleSelected = !menu.categories.cityStruggleSelected">
           <i class="icon small-icon ion-home"></i>
           Stadskamp
-          <i class="icon small-icon ion-checkmark"></i>
+          <i class="icon small-icon" ng-class="{'ion-checkmark': menu.categories.cityStruggleSelected}"></i>
         </div>
 
-        <div class="item item-icon-left item-icon-right">
+        <div class="item item-icon-left item-icon-right" ng-click="menu.categories.workersStruggleSelected = !menu.categories.workersStruggleSelected">
           <i class="icon small-icon ion-wrench"></i>
           Arbetarkamp
-          <i class="icon small-icon ion-checkmark"></i>
+          <i class="icon small-icon" ng-class="{'ion-checkmark': menu.categories.workersStruggleSelected}"></i>
         </div>
         </div>
 

@@ -25,7 +25,7 @@ angular.module('stadsbild').controller('MapController',
           expanded : true,
           newsSelected : true,
           cityStruggleSelected : true,
-          workersStruggleSelected : false,
+          workersStruggleSelected : true,
         },
 
         other : {
