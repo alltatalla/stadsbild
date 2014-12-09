@@ -16,6 +16,23 @@ angular.module('stadsbild').controller('MapController',
       InstructionsService
       ) {
 
+      $scope.menu = {
+        struggles : {
+          expanded : true,
+        },
+
+        categories : {
+          expanded : true,
+          newsSelected : true,
+          cityStruggleSelected : true,
+          workersStruggleSelected : false,
+        },
+
+        other : {
+          expanded : false,
+        }
+      };
+
       /**
        * Once state loaded, get put map on scope.
        */
