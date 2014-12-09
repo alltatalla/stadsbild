@@ -23,13 +23,10 @@
           <i class="icon small-icon" ng-class="{'ion-plus': !menu.struggles.expanded, 'ion-minus': menu.struggles.expanded}" ></i>
         </div>
 
-        <div class="item item-button-right" ng-show="menu.struggles.expanded"
-           ng-repeat="(struggleKey,struggle) in struggles track by struggle.name">
-          <a ng-href="#/struggle/{{struggle.id}}" class="menu-close"> {{struggle.name}}</a>
-          <button class="button button-clear button-dark menu-close" ng-click="goTo(struggleKey)">
-            <i class="icon ion-location"></i>
-          </button>
-        </div>
+        <a class="item item-button-right" ng-show="menu.struggles.expanded"
+           ng-repeat="(struggleKey,struggle) in struggles track by struggle.name" ng-href="#/struggle/{{struggle.id}}" on-hold="goTo(struggleKey)">
+          {{struggle.name}}
+        </a>
 
         <div class="item item-divider item-icon-right" ng-click="menu.categories.expanded = !menu.categories.expanded">
           Filter
