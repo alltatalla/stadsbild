@@ -34,6 +34,7 @@ angular.module('stadsbild').controller('MapController',
             attributionControl: false,
           },
           center: {},
+          bounds: StruggleInformationService.getBounds(0.1),
           markers : {},
           paths : {},
           events: {
@@ -47,9 +48,9 @@ angular.module('stadsbild').controller('MapController',
         if ($stateParams.selectedStruggle != null) {
           goTo(parseInt($stateParams.selectedStruggle));
         }
-        else {
-          $scope.locate();
-        }
+        //else {
+          //$scope.locate();
+        //}
 
       });
 

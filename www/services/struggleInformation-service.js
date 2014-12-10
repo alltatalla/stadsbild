@@ -38,6 +38,41 @@ angular.module('stadsbild').factory('StruggleInformationService', [ function() {
     return undefined;
   };
 
+  strugglesObj.getBounds = function(margin) {
+    locList = strugglesObj.savedStruggles;
+    bounds = { northEast: {
+        lat: locList[0].lat,
+        lng: locList[0].lng
+      },
+      southWest: {
+        lat: locList[0].lat,
+        lng: locList[0].lng
+      }};
+
+    for (i = 1; i < locList.length; ++i) {
+      bounds.northEast.lat = Math.max(bounds.northEast.lat, locList[i].lat);
+      bounds.southWest.lat = Math.min(bounds.southWest.lat, locList[i].lat);
+
+      // This only works on the eastern hemisphere
+      bounds.northEast.lng = Math.max(bounds.northEast.lng, locList[i].lng);
+      bounds.southWest.lng = Math.min(bounds.southWest.lng, locList[i].lng);
+    }
+
+    if (margin) {
+      dlat = margin * (bounds.northEast.lat - bounds.southWest.lat);
+      dlng = margin * (bounds.northEast.lng - bounds.southWest.lng);
+
+      bounds.northEast.lat += dlat;
+      bounds.southWest.lat -= dlat;
+
+      // This only works on the eastern hemisphere
+      bounds.northEast.lng += dlng;
+      bounds.southWest.lng -= dlng;
+    }
+
+    return bounds;
+  };
+
   return strugglesObj;
 
 }]);
