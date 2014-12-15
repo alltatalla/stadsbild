@@ -56,7 +56,7 @@ angular.module('stadsbild').factory('StruggleInformationService', [ function() {
       links : ["http://www.cyklopen.se/"],
       lat : 59.259289,
       lng : 18.041106,
-      radius : 50
+      radius : 80
     },
     {
       id : 5,
@@ -67,7 +67,7 @@ angular.module('stadsbild').factory('StruggleInformationService', [ function() {
       links : ["http://kafe44.org/"],
       lat : 59.31595,
       lng : 18.08280,
-      radius : 30
+      radius : 60
     },
 
     {
@@ -79,7 +79,7 @@ angular.module('stadsbild').factory('StruggleInformationService', [ function() {
       links : [],
       lat : 59.33202831,
       lng : 18.04741120,
-      radius : 50
+      radius : 80
     }
   ];
 
