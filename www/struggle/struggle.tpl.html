@@ -3,30 +3,11 @@
     <div class="list card">
 
       <div class="item">
-        <h2>{{struggle.name}}</h2>
-        <p>subtitle (eg. date)</p>
+        <h2>{{struggle.title}}</h2>
+        <p>{{struggle.subtitle}}</p>
       </div>
 
-      <div class="item item-body">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Proin ac blandit felis. Praesent a nunc vel augue
-          ultrices sollicitudin ut posuere diam.
-        </p>
-        <p>
-          Nam leo est, ullamcorper nec libero ut, pellentesque varius
-          libero. Vestibulum consequat posuere fermentum. Nunc ut
-          vehicula mi. Vivamus quis massa eget tellus congue iaculis a
-          ut nisl. Phasellus dignissim fringilla neque at
-          vulputate. Donec orci erat, gravida sit amet fermentum sed,
-          dictum at felis.
-        </p>
-        <p>
-          Mauris dapibus sollicitudin odio sit amet commodo. Integer
-          nec ultrices diam. Cras pharetra eleifend urna vitae
-          venenatis. Ut quis efficitur nulla.
-        </p>
-      </div>
+      <div class="item item-body" ng-bind-html="struggle.text"></div>
       
       <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item" ng-click="showOnMap()">

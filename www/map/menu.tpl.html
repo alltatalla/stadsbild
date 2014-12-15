@@ -8,8 +8,8 @@
         </div>
 
         <a class="item item-button-right" ng-show="menu.struggles.expanded"
-           ng-repeat="(struggleKey,struggle) in struggles track by struggle.name" ng-href="#/struggle/{{struggle.id}}" on-hold="selectStruggle({{struggle.id}})">
-          {{struggle.name}}
+           ng-repeat="(struggleKey,struggle) in struggles track by struggle.title" ng-href="#/struggle/{{struggle.id}}" on-hold="selectStruggle({{struggle.id}})">
+          {{struggle.shorttitle}}
         </a>
 
         <div class="item item-divider item-icon-right" ng-click="menu.categories.expanded = !menu.categories.expanded">
