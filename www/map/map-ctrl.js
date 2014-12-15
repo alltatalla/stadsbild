@@ -40,7 +40,7 @@ angular.module('stadsbild').controller('MapController',
           center: {},
           bounds: StruggleInformationService.getBounds(0.1),
           markers : {},
-          paths : {},
+          paths : makePaths($scope.struggles),
           events: {
             map: {
               enable: ['context'],
@@ -106,7 +106,11 @@ angular.module('stadsbild').controller('MapController',
           draggable: false
         }];
 
-        $scope.map.paths = [{
+        $scope.map.paths = [makePath(location)];
+      };
+
+      var makePath = function(location) {
+        return {
           weight: 2,
           color: '#ff612f',
           latlngs: {
@@ -115,8 +119,16 @@ angular.module('stadsbild').controller('MapController',
           },
           radius: location.radius,
           type: 'circle'
-        }];
+        }
       };
+
+      var makePaths = function(locations) {
+        var paths = [];
+        for (var i = 0; i < locations.length; ++i) {
+          paths.push(makePath(locations[i]));
+        }
+        return paths;
+      }
 
       /**
        * Center map on user's current position
