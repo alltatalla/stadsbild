@@ -4,6 +4,7 @@ angular.module('stadsbild').controller('MapController',
     '$stateParams',
     '$ionicModal',
     '$ionicPopup',
+    'GeofencingService',
     'StruggleInformationService',
     'InstructionsService',
     function(
@@ -12,6 +13,7 @@ angular.module('stadsbild').controller('MapController',
       $stateParams,
       $ionicModal,
       $ionicPopup,
+      GeofencingService,
       StruggleInformationService,
       InstructionsService
       ) {
@@ -29,8 +31,8 @@ angular.module('stadsbild').controller('MapController',
         $scope.map = {
           defaults: {
             //tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-            //tileLayer: 'http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png',
-            tileLayer: 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png',
+            tileLayer: 'http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png',
+            //tileLayer: 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png',
             maxZoom: 18,
             zoomControlPosition: 'bottomleft',
             attributionControl: false,
