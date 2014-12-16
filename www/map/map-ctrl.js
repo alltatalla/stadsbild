@@ -1,7 +1,6 @@
 angular.module('stadsbild').controller('MapController',
   [ '$scope',
     '$cordovaGeolocation',
-    '$stateParams',
     '$ionicModal',
     '$ionicPopup',
     'GeofencingService',
@@ -10,7 +9,6 @@ angular.module('stadsbild').controller('MapController',
     function(
       $scope,
       $cordovaGeolocation,
-      $stateParams,
       $ionicModal,
       $ionicPopup,
       GeofencingService,
@@ -49,13 +47,12 @@ angular.module('stadsbild').controller('MapController',
           }
         };
 
-        if ($stateParams.selectedStruggle != null) {
-          goTo(parseInt($stateParams.selectedStruggle));
-        }
-        //else {
-          //$scope.locate();
-        //}
+        var sel = StruggleInformationService.selected();
+        goTo(StruggleInformationService.selected());
 
+        StruggleInformationService.onSelect(function(id) {
+          goTo(StruggleInformationService.selected());
+        });
       });
 
       $ionicModal.fromTemplateUrl('map/add-location.tpl.html', {
@@ -89,6 +86,12 @@ angular.module('stadsbild').controller('MapController',
        * @param locationKey
        */
       var goTo = function(id) {
+        if (id == null) {
+          $scope.map.bounds = StruggleInformationService.getBounds(0.1);
+          $scope.map.markers = {};
+          $scope.map.paths = makePaths($scope.struggles);
+          return;
+        }
 
         var location = StruggleInformationService.getLocation(id);
 
@@ -143,8 +146,8 @@ angular.module('stadsbild').controller('MapController',
             $scope.map.center.zoom = 15;
 
             $scope.map.markers.now = {
-              lat:position.coords.latitude,
-              lng:position.coords.longitude,
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
               message: "You Are Here",
               focus: true,
               draggable: false

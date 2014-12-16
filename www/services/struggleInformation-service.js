@@ -83,6 +83,22 @@ angular.module('stadsbild').factory('StruggleInformationService', [ function() {
     }
   ];
 
+  var selectionListeners = [];
+  strugglesObj.onSelect = function(callback) {
+    selectionListeners.push(callback);
+  };
+
+  var selected = null;
+  strugglesObj.select = function(id) {
+    selected = id;
+    for (var i = 0; i < selectionListeners.length; ++i)
+      selectionListeners[i](id);
+  };
+
+  strugglesObj.selected = function() {
+    return selected;
+  };
+
   strugglesObj.getLocation = function(id) {
     locList = strugglesObj.savedStruggles;
 

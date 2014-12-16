@@ -3,9 +3,12 @@ angular
   .controller('StruggleController',
      ['$scope', '$state', '$stateParams', 'StruggleInformationService',
      function($scope, $state, $stateParams, StruggleInformationService) {
-       $scope.struggle = StruggleInformationService.getLocation(parseInt($stateParams.struggleId));
+
+       var sid = parseInt($stateParams.struggleId);
+       $scope.struggle = StruggleInformationService.getLocation(sid);
 
        $scope.showOnMap = function() {
-         $state.go('map.index', {selectedStruggle: $stateParams.struggleId});  
+         StruggleInformationService.select(sid);
+         $state.go('map.index');
        };
     }]);

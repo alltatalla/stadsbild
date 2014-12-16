@@ -1,13 +1,15 @@
 angular.module('stadsbild')
   .factory(
     'GeofencingService',
-    ['$ionicPlatform',
+    ['$state',
+     '$ionicPlatform',
      '$window',
      '$cordovaGeolocation',
      '$cordovaBackgroundGeolocation',
      '$cordovaLocalNotification',
      'StruggleInformationService',
-     function($ionicPlatform,
+     function($state,
+              $ionicPlatform,
               $window,
               $cordovaGeolocation,
               $cordovaBackgroundGeolocation,
@@ -127,6 +129,7 @@ angular.module('stadsbild')
 
          $cordovaLocalNotification.onClick(function (id, state, json) {
            console.log("notification clicked: " + id);
+           $state.go('struggle', {struggleId: id});
          });
 
          serviceObj.available = true;

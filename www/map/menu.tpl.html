@@ -7,8 +7,12 @@
           <i class="icon small-icon" ng-class="{'ion-plus': !menu.struggles.expanded, 'ion-minus': menu.struggles.expanded}" ></i>
         </div>
 
-        <a class="item item-button-right" ng-show="menu.struggles.expanded"
-           ng-repeat="(struggleKey,struggle) in struggles track by struggle.title" ng-href="#/struggle/{{struggle.id}}" on-hold="selectStruggle({{struggle.id}})">
+        <a class="item item-button-right"
+           ng-show="menu.struggles.expanded"
+           ng-class="{'active': selectedStruggle(struggle.id)}"
+           ng-repeat="(struggleKey,struggle) in struggles track by struggle.title"
+           ng-href="#/struggle/{{struggle.id}}"
+           on-hold="selectStruggle({{struggle.id}})">
           {{struggle.shorttitle}}
         </a>
 
