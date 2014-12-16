@@ -1,6 +1,6 @@
 /*!
  * ngCordova
- * v0.1.7-alpha
+ * v0.1.8-alpha
  * Copyright 2014 Drifty Co. http://drifty.com/
  * See LICENSE in this repository for license information
  */
@@ -195,7 +195,7 @@ angular.module('ngCordova.plugins.backgroundGeolocation', [])
 
         $window.plugins.backgroundGeoLocation.configure(
           function (result) {
-            q.resolve(result);
+            q.notify(result);
             $window.plugins.backgroundGeoLocation.finish();
           },
           function (err) {
@@ -1199,31 +1199,64 @@ angular.module('ngCordova.plugins.device', [])
   .factory('$cordovaDevice', [function () {
 
     return {
+      /**
+       * Returns the whole device object.
+       * @see https://github.com/apache/cordova-plugin-device/blob/master/doc/index.md
+       * @returns {Object} The device object.
+       */
       getDevice: function () {
         return device;
       },
 
+      /**
+       * Returns the Cordova version.
+       * @see https://github.com/apache/cordova-plugin-device/blob/master/doc/index.md#devicecordova
+       * @returns {String} The Cordova version.
+       */
       getCordova: function () {
         return device.cordova;
       },
 
+      /**
+       * Returns the name of the device's model or product.
+       * @see https://github.com/apache/cordova-plugin-device/blob/master/doc/index.md#devicemodel
+       * @returns {String} The name of the device's model or product.
+       */
       getModel: function () {
         return device.model;
       },
 
-      // Warning: device.name is deprecated as of version 2.3.0. Use device.model instead.
+      /**
+       * @deprecated device.name is deprecated as of version 2.3.0. Use device.model instead.
+       * @returns {String}
+       */
       getName: function () {
         return device.name;
       },
 
+      /**
+       * Returns the device's operating system name.
+       * @see https://github.com/apache/cordova-plugin-device/blob/master/doc/index.md#deviceplatform
+       * @returns {String} The device's operating system name.
+       */
       getPlatform: function () {
         return device.platform;
       },
 
+      /**
+       * Returns the device's Universally Unique Identifier.
+       * @see https://github.com/apache/cordova-plugin-device/blob/master/doc/index.md#deviceuuid
+       * @returns {String} The device's Universally Unique Identifier
+       */
       getUUID: function () {
         return device.uuid;
       },
 
+      /**
+       * Returns the operating system version.
+       * @see https://github.com/apache/cordova-plugin-device/blob/master/doc/index.md#deviceversion
+       * @returns {String}
+       */
       getVersion: function () {
         return device.version;
       }
@@ -1253,17 +1286,23 @@ angular.module('ngCordova.plugins.deviceMotion', [])
       watchAcceleration: function (options) {
         var q = $q.defer();
 
-        var watchId = navigator.accelerometer.watchAcceleration(function (result) {
-          //q.resolve(watchID);
+        var watchID = navigator.accelerometer.watchAcceleration(function (result) {
           q.notify(result);
         }, function (err) {
           q.reject(err);
         }, options);
 
-        return {
-          watchId: watchId,
-          promise: q.promise
+        q.promise.cancel = function () {
+          navigator.accelerometer.clearWatch(watchID);
         };
+
+        q.promise.clearWatch = function (id) {
+          navigator.accelerometer.clearWatch(id || watchID);
+        };
+
+        q.promise.watchID = watchID;
+
+        return q.promise;
       },
 
       clearWatch: function (watchID) {
@@ -1283,8 +1322,8 @@ angular.module('ngCordova.plugins.deviceOrientation', [])
       getCurrentHeading: function () {
         var q = $q.defer();
 
-        navigator.compass.getCurrentHeading(function (heading) {
-          q.resolve(heading);
+        navigator.compass.getCurrentHeading(function (result) {
+          q.resolve(result);
         }, function (err) {
           q.reject(err);
         });
@@ -1295,20 +1334,27 @@ angular.module('ngCordova.plugins.deviceOrientation', [])
       watchHeading: function (options) {
         var q = $q.defer();
 
-        var watchId = navigator.compass.watchHeading(function (result) {
+        var watchID = navigator.compass.watchHeading(function (result) {
           q.notify(result);
         }, function (err) {
           q.reject(err);
         }, options);
 
-        return {
-          watchId: watchId,
-          promise: q.promise
+        q.promise.cancel = function () {
+          navigator.compass.clearWatch(watchID);
         };
+
+        q.promise.clearWatch = function (id) {
+          navigator.compass.clearWatch(id || watchID);
+        };
+
+        q.promise.watchID = watchID;
+
+        return q.promise;
       },
 
       clearWatch: function (watchID) {
-        navigator.compass.clearWatch(watchID);
+        return navigator.compass.clearWatch(watchID);
       }
     };
   }]);
@@ -1490,6 +1536,111 @@ angular.module('ngCordova.plugins.facebook', [])
     }];
   }]);
 
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-facebookads.git
+// link     :     https://github.com/floatinghotpot/cordova-plugin-facebookads
+
+angular.module('ngCordova.plugins.facebookAds', [])
+  .factory('$cordovaFacebookAds', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.FacebookAds.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.FacebookAds.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.FacebookAds.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.FacebookAds.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.FacebookAds.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.FacebookAds.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.FacebookAds.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.FacebookAds.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      }
+    };
+  }]);
+
 // install   :     cordova plugin add org.apache.cordova.file
 // link      :     https://github.com/apache/cordova-plugin-file/blob/master/doc/index.md
 
@@ -1502,7 +1653,7 @@ angular.module('ngCordova.plugins.facebook', [])
 angular.module('ngCordova.plugins.file', [])
 
 //Filesystem (checkDir, createDir, checkFile, creatFile, removeFile, writeFile, readFile)
-  .factory('$cordovaFile', ['$q', '$window', '$log', function ($q, $window, $log) {
+  .factory('$cordovaFile', ['$q', '$window', '$log', '$timeout', function ($q, $window, $log, $timeout) {
 
     return {
       checkDir: function (dir) {
@@ -1685,6 +1836,13 @@ angular.module('ngCordova.plugins.file', [])
         var fileTransfer = new FileTransfer();
         var uri = encodeURI(server);
 
+        if (options.timeout !== undefined && options.timeout !== null) {
+          $timeout(function () {
+            fileTransfer.abort();
+          }, options.timeout);
+          options.timeout = null;
+        }
+
         fileTransfer.onprogress = q.notify;
         fileTransfer.upload(filePath, uri, q.resolve, q.reject, options);
         return q.promise;
@@ -1834,6 +1992,111 @@ angular.module('ngCordova.plugins.flashlight', [])
     };
   }]);
 
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-flurry.git
+// link     :     https://github.com/floatinghotpot/cordova-plugin-flurry
+
+angular.module('ngCordova.plugins.flurryAds', [])
+  .factory('$cordovaFlurryAds', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.FlurryAds.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.FlurryAds.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.FlurryAds.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.FlurryAds.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.FlurryAds.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.FlurryAds.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.FlurryAds.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.FlurryAds.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      }
+    };
+  }]);
+
 // install   :     cordova plugin add https://github.com/phonegap-build/GAPlugin.git
 // link      :     https://github.com/phonegap-build/GAPlugin
 
@@ -1916,7 +2179,6 @@ angular.module('ngCordova.plugins.geolocation', [])
         var q = $q.defer();
 
         navigator.geolocation.getCurrentPosition(function (result) {
-          // Do any magic you need
           q.resolve(result);
         }, function (err) {
           q.reject(err);
@@ -1924,21 +2186,27 @@ angular.module('ngCordova.plugins.geolocation', [])
 
         return q.promise;
       },
+
       watchPosition: function (options) {
         var q = $q.defer();
 
-        var watchId = navigator.geolocation.watchPosition(function (result) {
-          // Do any magic you need
+        var watchID = navigator.geolocation.watchPosition(function (result) {
           q.notify(result);
-
         }, function (err) {
           q.reject(err);
         }, options);
 
-        return {
-          watchId: watchId,
-          promise: q.promise
+        q.promise.cancel = function () {
+          navigator.geolocation.clearWatch(watchID);
         };
+
+        q.promise.clearWatch = function (id) {
+          navigator.geolocation.clearWatch(id || watchID);
+        };
+
+        q.promise.watchID = watchID;
+
+        return q.promise;
       },
 
       clearWatch: function (watchID) {
@@ -2123,6 +2391,111 @@ angular.module('ngCordova.plugins.globalization', [])
         return q.promise;
       }
 
+    };
+  }]);
+
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-admob-pro.git
+// link     :     https://github.com/floatinghotpot/cordova-admob-pro
+
+angular.module('ngCordova.plugins.googleAds', [])
+  .factory('$cordovaGoogleAds', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.AdMob.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.AdMob.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.AdMob.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.AdMob.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.AdMob.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.AdMob.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.AdMob.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.AdMob.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      }
     };
   }]);
 
@@ -2343,6 +2716,111 @@ angular.module('ngCordova.plugins.httpd', [])
         return d.promise;
       }
 
+    };
+  }]);
+
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-iad.git
+// link     :     https://github.com/floatinghotpot/cordova-plugin-iad
+
+angular.module('ngCordova.plugins.iAd', [])
+  .factory('$cordovaiAd', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.iAd.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.iAd.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.iAd.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.iAd.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.iAd.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.iAd.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.iAd.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.iAd.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      }
     };
   }]);
 
@@ -2596,20 +3074,125 @@ angular.module('ngCordova.plugins.localNotification', [])
         $window.plugin.notification.local.setDefaults(Object);
       },
 
-      onadd: function () {
-        return $window.plugin.notification.local.onadd;
+      onAdd: function (callback) {
+        $window.plugin.notification.local.onadd = callback;
       },
 
-      ontrigger: function () {
-        return $window.plugin.notification.local.ontrigger;
+      onTrigger: function (callback) {
+        $window.plugin.notification.local.ontrigger = callback;
       },
 
-      onclick: function () {
-        return $window.plugin.notification.local.onclick;
+      onClick: function (callback) {
+        $window.plugin.notification.local.onclick = callback;
       },
 
-      oncancel: function () {
-        return $window.plugin.notification.local.oncancel;
+      onCancel: function (callback) {
+        $window.plugin.notification.local.oncancel = callback;
+      }
+    };
+  }]);
+
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-mmedia.git
+// link     :     https://github.com/floatinghotpot/cordova-plugin-mmedia
+
+angular.module('ngCordova.plugins.mMediaAds', [])
+  .factory('$cordovaMMediaAds', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.mMedia.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.mMedia.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.mMedia.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.mMedia.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.mMedia.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.mMedia.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.mMedia.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.mMedia.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
       }
     };
   }]);
@@ -2707,9 +3290,115 @@ angular.module('ngCordova.plugins.media', [])
     };
   }]);
 
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-mobfox-pro.git
+// link     :     https://github.com/floatinghotpot/cordova-mobfox-pro
+
+angular.module('ngCordova.plugins.mobfoxAds', [])
+  .factory('$cordovaMobFoxAds', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.MobFox.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.MobFox.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.MobFox.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.MobFox.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.MobFox.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.MobFox.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.MobFox.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.MobFox.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      }
+    };
+  }]);
+
 angular.module('ngCordova.plugins', [
   'ngCordova.plugins.adMob',
   'ngCordova.plugins.appAvailability',
+  'ngCordova.plugins.AppRate',
   'ngCordova.plugins.backgroundGeolocation',
   'ngCordova.plugins.badge',
   'ngCordova.plugins.barcodeScanner',
@@ -2727,19 +3416,26 @@ angular.module('ngCordova.plugins', [
   'ngCordova.plugins.deviceOrientation',
   'ngCordova.plugins.dialogs',
   'ngCordova.plugins.facebook',
+  'ngCordova.plugins.facebookAds',
   'ngCordova.plugins.file',
   'ngCordova.plugins.flashlight',
+  'ngCordova.plugins.flurryAds',
   'ngCordova.plugins.ga',
   'ngCordova.plugins.geolocation',
   'ngCordova.plugins.globalization',
+  'ngCordova.plugins.googleAds',
   'ngCordova.plugins.googleAnalytics',
   'ngCordova.plugins.googleMap',
   'ngCordova.plugins.httpd',
+  'ngCordova.plugins.iAd',
   'ngCordova.plugins.inAppBrowser',
   'ngCordova.plugins.keyboard',
   'ngCordova.plugins.keychain',
   'ngCordova.plugins.localNotification',
   'ngCordova.plugins.media',
+  'ngCordova.plugins.mMediaAds',
+  'ngCordova.plugins.mobfoxAds',
+  'ngCordova.plugins.mopubAds',
   'ngCordova.plugins.nativeAudio',
   'ngCordova.plugins.network',
   'ngCordova.plugins.oauth',
@@ -2761,6 +3457,111 @@ angular.module('ngCordova.plugins', [
   'ngCordova.plugins.videoCapturePlus',
   'ngCordova.plugins.zip'
 ]);
+
+// install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-mopub.git
+// link     :     https://github.com/floatinghotpot/cordova-plugin-mopub
+
+angular.module('ngCordova.plugins.mopubAds', [])
+  .factory('$cordovaMoPubAds', ['$q', '$window', function ($q, $window) {
+
+    return {
+      setOptions: function (options) {
+        var d = $q.defer();
+
+        $window.MoPub.setOptions(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      createBanner: function (options) {
+        var d = $q.defer();
+
+        $window.MoPub.createBanner(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      removeBanner: function () {
+        var d = $q.defer();
+
+        $window.MoPub.removeBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBanner: function (position) {
+        var d = $q.defer();
+
+        $window.MoPub.showBanner(position, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showBannerAtXY: function (x, y) {
+        var d = $q.defer();
+
+        $window.MoPub.showBannerAtXY(x, y, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      hideBanner: function () {
+        var d = $q.defer();
+
+        $window.MoPub.hideBanner(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      prepareInterstitial: function (options) {
+        var d = $q.defer();
+
+        $window.MoPub.prepareInterstitial(options, function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      },
+
+      showInterstitial: function () {
+        var d = $q.defer();
+
+        $window.MoPub.showInterstitial(function () {
+          d.resolve();
+        }, function () {
+          d.reject();
+        });
+
+        return d.promise;
+      }
+    };
+  }]);
 
 // install   : cordova plugin add https://github.com/sidneys/cordova-plugin-nativeaudio.git
 // link      : https://github.com/sidneys/cordova-plugin-nativeaudio
@@ -3379,6 +4180,47 @@ angular.module("ngCordova.plugins.oauth", ["ngCordova.plugins.oauthUtility"])
                 }
                 if (parameterMap.access_token !== undefined && parameterMap.access_token !== null) {
                   deferred.resolve(parameterMap);
+                } else {
+                  deferred.reject("Problem authenticating");
+                }
+                browserRef.close();
+              }
+            });
+          } else {
+            deferred.reject("Could not find InAppBrowser plugin");
+          }
+        } else {
+          deferred.reject("Cannot authenticate via a web browser");
+        }
+        return deferred.promise;
+      },
+
+      /*
+       * Sign into the Foursquare service
+       *
+       * @param    string clientId
+       * @return   promise
+       */
+      foursquare: function (clientId) {
+        var deferred = $q.defer();
+        if (window.cordova) {
+          var cordovaMetadata = cordova.require("cordova/plugin_list").metadata;
+          if (cordovaMetadata.hasOwnProperty("org.apache.cordova.inappbrowser") === true) {
+            var browserRef = window.open('https://foursquare.com/oauth2/authenticate?client_id=' + clientId + '&redirect_uri=http://localhost/callback&response_type=token', '_blank', 'location=no,clearsessioncache=yes,clearcache=yes');
+            browserRef.addEventListener('loadstart', function (event) {
+              if ((event.url).indexOf("http://localhost/callback") === 0) {
+                var callbackResponse = (event.url).split("#")[1];
+                var responseParameters = (callbackResponse).split("&");
+                var parameterMap = [];
+                for (var i = 0; i < responseParameters.length; i++) {
+                  parameterMap[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
+                }
+                if (parameterMap["access_token"] !== undefined && parameterMap["access_token"] !== null) {
+                  var promiseResponse = {
+                    access_token: parameterMap["access_token"],
+                    expires_in: parameterMap["expires_in"]
+                  };
+                  deferred.resolve(promiseResponse);
                 } else {
                   deferred.reject("Problem authenticating");
                 }

@@ -45,9 +45,8 @@ angular.module('stadsbild')
              // Entering a location
              $cordovaLocalNotification.add({
                id: struggles[i].id,
-               message: 'fu message',
-               title: 'fu title',
-               json: JSON.stringify({ struggle: struggles[i].id })
+               message: 'En intressant plats',
+               title: struggles[i].shorttitle,
              });
 
              inLocation[struggles[i].id] = true;
@@ -97,17 +96,17 @@ angular.module('stadsbild')
            enableHighAccuracy: true
          };
 
-         var watch = $cordovaGeolocation.watchPosition(options);
-         watch.promise.then(
-           function()  { /* Not  used */ },
-           function(err) {
-             console.log('Error setting position watch: ' + err.code);
-           }, function(position) {
-             locationUpdate({
-               lat: position.coords.latitude,
-               lng: position.coords.longitude
+         $cordovaGeolocation.watchPosition(options)
+           .then(
+             function()  { /* Not  used */ },
+             function(err) {
+               console.log('Error setting position watch: ' + err.code);
+             }, function(position) {
+               locationUpdate({
+                 lat: position.coords.latitude,
+                 lng: position.coords.longitude
+               });
              });
-           });
        };
 
        // Service intialization
@@ -124,6 +123,10 @@ angular.module('stadsbild')
          $cordovaLocalNotification.setDefaults({
            led: 'FF0000',
            autoCancel: true
+         });
+
+         $cordovaLocalNotification.onClick(function (id, state, json) {
+           console.log("notification clicked: " + id);
          });
 
          serviceObj.available = true;
