@@ -1,12 +1,12 @@
 angular.module('stadsbild').controller('MenuController',
   [ '$scope',
-    '$state',
+    '$location',
     '$ionicSideMenuDelegate',
     'StruggleInformationService',
     'InstructionsService',
     function(
       $scope,
-      $state,
+      $location,
       $ionicSideMenuDelegate,
       StruggleInformationService,
       InstructionsService) {
@@ -42,5 +42,9 @@ angular.module('stadsbild').controller('MenuController',
       $scope.selectedStruggle = function(id) {
         var sid = StruggleInformationService.selected();
         return sid != null && sid === id;
+      };
+
+      $scope.go = function(path) {
+        $location.path( path );
       };
     }]);

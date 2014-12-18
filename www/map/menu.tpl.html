@@ -1,64 +1,80 @@
-<ion-view>
-
+<ion-content>
+  <ion-view>
       <ion-list>
 
-        <div class="item item-divider item-icon-right" ng-click="menu.struggles.expanded = !menu.struggles.expanded">
-          Platser
-          <i class="icon small-icon" ng-class="{'ion-plus': !menu.struggles.expanded, 'ion-minus': menu.struggles.expanded}" ></i>
-        </div>
+        <ion-item class="side-menu-separator item-icon-right"
+                  ng-click="menu.struggles.expanded = !menu.struggles.expanded">
+          <b>Platser</b>
+          <i class="icon small-icon"
+             ng-class="{'ion-plus': !menu.struggles.expanded, 'ion-minus': menu.struggles.expanded}" ></i>
+        </ion-item>
 
-        <a class="item item-button-right"
-           ng-show="menu.struggles.expanded"
-           ng-class="{'active': selectedStruggle(struggle.id)}"
-           ng-repeat="(struggleKey,struggle) in struggles track by struggle.title"
-           ng-href="#/struggle/{{struggle.id}}"
-           on-hold="selectStruggle({{struggle.id}})">
+        <ion-item class="side-menu-item item-icon-left"
+                  ng-show="menu.struggles.expanded"
+                  ng-class="{'active': selectedStruggle(struggle.id)}"
+                  ng-repeat="(struggleKey,struggle) in struggles track by struggle.title"
+                  ng-click="go('struggle/' + struggle.id)"
+                  on-hold="selectStruggle({{struggle.id}})">
+          <i class="icon small-icon ion-home"></i>
           {{struggle.shorttitle}}
-        </a>
+        </ion-item>
 
-        <div class="item item-divider item-icon-right" ng-click="menu.categories.expanded = !menu.categories.expanded">
-          Filter
-          <i class="icon small-icon ion-minus" ng-class="{'ion-plus': !menu.categories.expanded, 'ion-minus': menu.categories.expanded}"></i>
-        </div>
+        <ion-item class="side-menu-separator item-icon-right"
+                  ng-click="menu.categories.expanded = !menu.categories.expanded">
+          <b>Filter</b>
+          <i class="icon small-icon ion-minus"
+             ng-class="{'ion-plus': !menu.categories.expanded, 'ion-minus': menu.categories.expanded}"></i>
+        </ion-item>
 
-        <div ng-show="menu.categories.expanded">
-        <div class="item item-icon-left item-icon-right" ng-click="menu.categories.newsSelected = !menu.categories.newsSelected">
+        <ion-item class="side-menu-item item-icon-left item-icon-right"
+                  ng-click="menu.categories.newsSelected = !menu.categories.newsSelected"
+                  ng-show="menu.categories.expanded">
           <i class="icon small-icon ion-speakerphone"></i>
           Nyheter
-          <i class="icon small-icon" ng-class="{'ion-checkmark': menu.categories.newsSelected}"></i>
-        </div>
+          <i class="icon small-icon"
+             ng-class="{'ion-checkmark': menu.categories.newsSelected}"></i>
+        </ion-item>
 
-        <div class="item item-icon-left item-icon-right" ng-click="menu.categories.cityStruggleSelected = !menu.categories.cityStruggleSelected">
+        <ion-item class="side-menu-item item-icon-left item-icon-right"
+                  ng-click="menu.categories.cityStruggleSelected = !menu.categories.cityStruggleSelected"
+                  ng-show="menu.categories.expanded">
           <i class="icon small-icon ion-home"></i>
           Stadskamp
-          <i class="icon small-icon" ng-class="{'ion-checkmark': menu.categories.cityStruggleSelected}"></i>
-        </div>
+          <i class="icon small-icon"
+             ng-class="{'ion-checkmark': menu.categories.cityStruggleSelected}"></i>
+        </ion-item>
 
-        <div class="item item-icon-left item-icon-right" ng-click="menu.categories.workersStruggleSelected = !menu.categories.workersStruggleSelected">
+        <ion-item class="side-menu-item item-icon-left item-icon-right"
+                  ng-click="menu.categories.workersStruggleSelected = !menu.categories.workersStruggleSelected"
+                  ng-show="menu.categories.expanded">
           <i class="icon small-icon ion-wrench"></i>
           Arbetarkamp
-          <i class="icon small-icon" ng-class="{'ion-checkmark': menu.categories.workersStruggleSelected}"></i>
-        </div>
-        </div>
+          <i class="icon small-icon"
+             ng-class="{'ion-checkmark': menu.categories.workersStruggleSelected}"></i>
+        </ion-item>
 
-        <div class="item item-divider item-icon-right" ng-click="menu.other.expanded = !menu.other.expanded">
-          Annat
-          <i class="icon small-icon ion-minus" ng-class="{'ion-plus': !menu.other.expanded, 'ion-minus': menu.other.expanded}"></i>
-        </div>
+        <ion-item class="side-menu-separator item-icon-right"
+                  ng-click="menu.other.expanded = !menu.other.expanded">
+          <b>Annat</b>
+          <i class="icon small-icon ion-minus"
+             ng-class="{'ion-plus': !menu.other.expanded, 'ion-minus': menu.other.expanded}"></i>
+        </ion-item>
 
-        <div ng-show="menu.other.expanded">
-        <a class="item item-icon-left"
-           href="#/settings">
+        <ion-item class="side-menu-item item-icon-left"
+                  ng-click="go('settings')"
+                  ng-show="menu.other.expanded">
           <i class="icon small-icon ion-gear-b"></i>
           Settings
-        </a>
+        </ion-item>
 
-        <a class="item item-icon-left"
-           href="#/about">
+        <ion-item class="side-menu-item item-icon-left"
+                  ng-click="go('about')"
+                  ng-show="menu.other.expanded">
           <i class="icon small-icon ion-ios7-information-outline"></i>
           About
-        </a>
-        </div>
+        </ion-item>
+
       </ion-list>
 
     </ion-view>
+</ion-content>

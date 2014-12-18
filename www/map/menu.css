@@ -1,3 +1,24 @@
 .small-icon {
     font-size: 22px !important;
 }
+
+.side-menu-item
+{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.side-menu-separator
+{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+    color: #387ef5;
+    padding-top: 12px;
+    padding-bottom: 10px;
+}
