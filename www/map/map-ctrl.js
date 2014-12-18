@@ -55,32 +55,6 @@ angular.module('stadsbild').controller('MapController',
         });
       });
 
-      $ionicModal.fromTemplateUrl('map/add-location.tpl.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-          $scope.modal = modal;
-        });
-
-      /**
-       * Detect user long-pressing on map to add new location
-       */
-      $scope.$on('leafletDirectiveMap.contextmenu', function(event, locationEvent){
-        $scope.newLocation = {
-          name : "",
-          lat : locationEvent.leafletEvent.latlng.lat,
-          lng : locationEvent.leafletEvent.latlng.lng,
-          radius: 100
-        };
-        $scope.modal.show();
-      });
-
-      $scope.saveLocation = function() {
-        StruggleInformationService.savedStruggles.push($scope.newLocation);
-        $scope.modal.hide();
-        goTo(StruggleInformationService.savedStruggles.length - 1);
-      };
-
       /**
        * Center map on specific saved location
        * @param locationKey
